@@ -7,19 +7,42 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var btmPlay: UIButton!
+    @IBOutlet weak var btmStop: UIButton!
+    
+    var sound: AVAudioPlayer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let path = NSBundle.mainBundle().pathForResource("Let_The_Games_Begin_Hyper_Potions_Remix_", ofType: "wav")
+        let soundURL = NSURL(fileURLWithPath: path!)
+        
+        do {
+            try sound = AVAudioPlayer(contentsOfURL: soundURL)
+            sound.prepareToPlay()
+        } catch let err as NSError {
+            print(err.debugDescription)
+        }
+        
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    @IBAction func playSuond(sender: UIButton) {
+        sound.play()
+        btmPlay.hidden = true
+        btmStop.hidden = false
     }
-
-
+    
+    @IBAction func stopSound(sender: UIButton) {
+        sound.stop()
+        btmPlay.hidden = false
+        btmStop.hidden = true
+    }
 }
 
